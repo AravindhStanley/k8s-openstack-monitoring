@@ -1,0 +1,27 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: {{ .Release.Name }}-hypervisor-libvirt-exporter
+  namespace: {{ .Release.Namespace }}
+  labels:
+    target_type: hypervisor
+  {{- range $key, $value := .Values.commonLabels }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+
+spec:
+  jobName: {{ .Release.Name }}-hypervisor-libvirt-exporter
+  honorTimestamps: true
+  scrapeInterval: 15s
+  staticConfigs:
+  {{- range .Values.openstack.aggregates }}
+    - targets:
+    {{- range .hypervisors }}
+      - "{{ . }}:{{ $.Values.exporters.libvirt.port }}"
+    {{- end }}
+      labels:
+        openstack_node_role: hypervisor
+        openstack_cluster: {{ $.Values.openstack.cluster | quote }}
+        openstack_aggregate: {{ .name | quote }}
+        openstack_env: {{ $.Values.openstack.env }}
+  {{- end }}
