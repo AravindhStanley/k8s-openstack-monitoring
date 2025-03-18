@@ -37,6 +37,7 @@
 
    ```bash
     helm install [RELEASE_NAME] prometheus-community/prometheus-blackbox-exporter \
+        --namespace [NAMESPACE] \
         -f ./blackbox-exporter/blackbox-exporter.override.yaml \
         -f ./blackbox-exporter/blackbox-hostalias.override.yaml ## Only needed if you have added the file as part of step 01
    ```
