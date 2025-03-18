@@ -1,0 +1,23 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: {{ .Release.Name }}-api-svc-probes
+  namespace: {{ .Release.Namespace }}
+  labels:
+    endpoint_type: internal
+  {{- range $key, $value := $.Values.commonLabels }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+
+spec:
+  jobName: {{ .Release.Name }}-api-svc-probes
+  prober:
+    url: {{ $.Values.openstack.api_endpoints.blackbox_url }}:9115
+  module: http_sans_5xx
+  targets:
+    staticConfig:
+      static:
+      {{- range $.Values.openstack.api_endpoints.svc }}
+        - {{ . }}
+      {{- end }}
