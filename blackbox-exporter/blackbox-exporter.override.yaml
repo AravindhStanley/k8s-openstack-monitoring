@@ -6,8 +6,8 @@ config:
       http:
         preferred_ip_protocol: "ip4"
         follow_redirects: true
-        tlsConfig:
-          insecureSkipVerify: true
+        tls_config:
+          insecure_skip_verify: true
         valid_status_codes:
           [
             200,

@@ -41,3 +41,6 @@
         -f ./blackbox-exporter/blackbox-exporter.override.yaml \
         -f ./blackbox-exporter/blackbox-hostalias.override.yaml ## Only needed if you have added the file as part of step 01
    ```
+
+#### Configure Openstack Targets
+
