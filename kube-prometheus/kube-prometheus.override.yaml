@@ -1,4 +1,4 @@
-common_labels:
+commonLabels:
   app.kubernetes.io/monitored_by: greedy_gorilla
 
 defaultRules:
