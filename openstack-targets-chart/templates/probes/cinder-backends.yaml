@@ -11,7 +11,7 @@ metadata:
   {{- range $key, $value := $.Values.commonLabels }}
     {{ $key }}: {{ $value | quote }}
   {{- end }}
-specs:
+spec:
   jobName: {{ . }}-cinder-backend-availability
   prober:
     url: {{ . }}:{{ $.Values.exporters.blackbox.port }}
