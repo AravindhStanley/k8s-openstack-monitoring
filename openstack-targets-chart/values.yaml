@@ -1,0 +1,31 @@
+commonLabels:
+  {}
+  # app.kubernetes.io/monitored_by: greedy_gorilla
+
+exporters:
+  blackbox:
+    port: 9115
+  libvirt:
+    port: 9177
+  node:
+    port: 9100
+
+openstack:
+  env: ""
+  cluster: ""
+  aggregates:
+    - name: "Sample Aggregate"
+      hypervisors:
+        - "hypervisor1"
+        - "hypervisor2"
+  cinder:
+    - name: "Sample Cinder"
+      vendor: "SuperFastStorage"
+      mgmtAddress: "127.0.0.1"
+      port: 80
+  api_endpoints:
+    blackbox_url: "blackbox.svc.local"
+    svc:
+      - sample_svc:80
+    ingress:
+      - sample_ingress:443
