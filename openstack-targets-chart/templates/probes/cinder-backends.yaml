@@ -1,0 +1,27 @@
+{{- range .Values.openstack.aggregates }}
+{{- range .hypervisors }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: Probe
+metadata:
+  name: {{ . }}-cinder-backend-availability
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    target_type: cinder_backends
+  {{- range $key, $value := $.Values.commonLabels }}
+    {{ $key }}: {{ $value | quote }}
+  {{- end }}
+specs:
+  jobName: {{ . }}-cinder-backend-availability
+  prober:
+    url: {{ . }}:{{ $.Values.exporters.blackbox.port }}
+  module: http_sans_5xx
+  targets:
+    staticConfig:
+      static:
+      {{- range $.Values.openstack.cinder}}
+        - {{ .mgmtAddress }}:{{ .port }} ## {{ .vendor }} / {{ .name }}
+      {{- end }}
+
+{{- end }}
+{{- end }}
