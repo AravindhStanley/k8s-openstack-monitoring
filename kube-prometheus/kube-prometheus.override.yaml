@@ -40,7 +40,31 @@ alertmanager:
     clusterLabel: greedy_gorilla
 
 grafana:
-  enabled: false
+  enabled: true
+  replicas: 1
+  adminUser: admin
+  persistence:
+    enabled: true
+    type: pvc
+    storageClassName: pcd-sc
+    accessModes:
+      - ReadWriteOnce
+    size: 10Gi
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.greedy-gorilla.example.com
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.greedy-gorilla.example.com
+  resources:
+    requests:
+      memory: 400Mi
+      cpu: 500m
+    limits:
+      memory: 600Mi
+      cpu: 800m
 
 nodeExporter:
   enabled: true
