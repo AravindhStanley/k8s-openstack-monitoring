@@ -1,0 +1,102 @@
+common_labels:
+  app.kubernetes.io/monitored_by: greedy_gorilla
+
+defaultRules:
+  additionalRuleLabels:
+    app.kubernetes.io/monitored_by: greedy_gorilla
+
+alertmanager:
+  enabled: true
+  ingress:
+    enabled: true
+    hosts:
+      - alertmanager.greedy-gorilla.example.com
+    tls:
+      - secretName: alertmanager-tls
+        hosts:
+          - alertmanager.greedy-gorilla.example.com
+  alertmanagerSpec:
+    alertmanagerConfigSelector:
+      matchLabels:
+        app.kubernetes.io/monitored_by: greedy_gorilla
+    replicas: 3
+    retention: 168h
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: pcd-sc
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+    resources:
+      requests:
+        memory: 250Mi
+        cpu: 300m
+      limits:
+        memory: 400Mi
+        cpu: 500m
+    clusterLabel: greedy_gorilla
+
+grafana:
+  enabled: false
+
+nodeExporter:
+  enabled: true
+  operatingSystems:
+    linux:
+      enabled: true
+    aix:
+      enabled: false
+    darwin:
+      enabled: false
+
+prometheus:
+  enabled: true
+  ingress: true
+  hosts:
+    - prometheus.greedy-gorilla.example.com
+  tls:
+    - secretName: prometheus-tls
+      hosts:
+        - prometheus.greedy-gorilla.example.com
+  prometheusSpec:
+    scrapeInterval: 15s
+    scrapeTimeout: 10s
+    enableRemoteWriteReceiver: true
+    remoteWriteDashboards: true
+    retention: 180d
+    replicas: 3
+    prometheusExternalLavelName: greedy_gorilla
+    ruleSelector:
+      matchLabels:
+        app.kubernetes.io/monitored_by: greedy_gorilla
+    serviceMonitorSelector:
+      matchLabels:
+        app.kubernetes.io/monitored_by: greedy_gorilla
+    podMonitorSelector:
+      matchLabels:
+        app.kubernetes.io/monitored_by: greedy_gorilla
+    probeSelector:
+      matchLabels:
+        app.kubernetes.io/monitored_by: greedy_gorilla
+    scrapeConfigSelector:
+      matchLabels:
+        app.kubernetes.io/monitored_by: greedy_gorilla
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: pcd-sc
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 50Gi
+    resources:
+      requests:
+        memory: 400Mi
+        cpu: 500m
+      limits:
+        memory: 1024Mi
+        cpu: 1000m
