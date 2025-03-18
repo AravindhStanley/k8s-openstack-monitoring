@@ -54,13 +54,14 @@ nodeExporter:
 
 prometheus:
   enabled: true
-  ingress: true
-  hosts:
-    - prometheus.greedy-gorilla.example.com
-  tls:
-    - secretName: prometheus-tls
-      hosts:
-        - prometheus.greedy-gorilla.example.com
+  ingress:
+    enabled: true
+    hosts:
+      - prometheus.greedy-gorilla.example.com
+    tls:
+      - secretName: prometheus-tls
+        hosts:
+          - prometheus.greedy-gorilla.example.com
   prometheusSpec:
     scrapeInterval: 15s
     scrapeTimeout: 10s
