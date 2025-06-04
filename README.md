@@ -29,7 +29,7 @@
     ## File: `./blackbox-exporter/blackbox-hostalias.override.yaml`
     hostAliases:
       - ip: "10.10.10.10"
-        hostnames:
+        hostNames:
           - "example.com"
     ```
 
